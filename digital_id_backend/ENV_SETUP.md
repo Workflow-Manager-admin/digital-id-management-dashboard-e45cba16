@@ -45,7 +45,7 @@ The frontend sends REST requests to the backend.
 
 Set in a `.env` in the frontend folder:
 ```
-REACT_APP_API_URL=http://localhost:8000/api
+REACT_APP_API_URL=http://localhost:3001/api
 ```
 If not set, it defaults to `/api` (which works for relative APIs if hosted behind a reverse proxy).
 
@@ -54,7 +54,7 @@ If not set, it defaults to `/api` (which works for relative APIs if hosted behin
 |-----------|-----------------------------------|--------------------------------------|
 | Database  | POSTGRES_*                        | See above                            |
 | Backend   | POSTGRES_*, (JWT_SECRET)          | See above                            |
-| Frontend  | REACT_APP_API_URL                 | http://localhost:8000/api            |
+| Frontend  | REACT_APP_API_URL                 | http://localhost:3001/api            |
 
 ---
 

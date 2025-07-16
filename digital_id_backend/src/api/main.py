@@ -13,7 +13,13 @@ Features:
 
 Environment variables required: POSTGRES_URL, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT
 
-Run: uvicorn src.api.main:app --reload
+Run: uvicorn src.api.main:app --reload --host 0.0.0.0 --port 3001
+
+Note:
+If running as a module or via python main.py for local/deploy preview, you must ensure the FastAPI app is actually served on port 3001 and not the default 8000.
+
+Optional direct start: python src/api/main.py    # (uses uvicorn programmatically, binds to 0.0.0.0:3001)
+
 """
 import os
 from datetime import datetime, timedelta
@@ -610,3 +616,23 @@ try:
     init_db()
 except Exception as ex:
     print("--- Warning: Could not init DB (probably already exists) ---", ex)
+
+# ==========================================================
+# Enable direct programmatic launch: python src/api/main.py
+if __name__ == "__main__":
+    import uvicorn
+    port = 3001
+    # Allow override with PORT env (e.g. in preview envs)
+    try:
+        port = int(os.getenv("PORT", "3001"))
+    except Exception:
+        port = 3001
+    print(f"Starting server at 0.0.0.0:{port} (FOR DEV/DEPLOY PREVIEW)...")
+    uvicorn.run(
+        "src.api.main:app",
+        host="0.0.0.0",
+        port=port,
+        reload=True,
+        factory=False
+    )
+

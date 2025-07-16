@@ -22,7 +22,7 @@ This document describes the environment variables, API base URLs, and component 
 ## 2. Backend API (FastAPI)
 - **Required by:** Frontend
 - **API base URL:**  
-  `http://localhost:8000/api`
+  `http://localhost:3001/api`
 - **.env location:**  
   Place env file in `digital_id_backend/`
 - **Security / Auth:**  

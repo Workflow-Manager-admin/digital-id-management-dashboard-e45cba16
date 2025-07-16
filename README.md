@@ -49,12 +49,17 @@ Check and initialize the database using the provided SQL schema or startup scrip
 
 To start the backend server (pick up .env automatically if present):
 ```
-uvicorn src.api.main:app --reload
+uvicorn src.api.main:app --reload --host 0.0.0.0 --port 3001
 ```
+or (if you want to run as a script for local/dev/preview environments):
+```
+python src/api/main.py
+```
+(This ensures FastAPI will bind to port 3001, which is required for preview and container launch success.)
 
 ### REST API Endpoints
 
-- API documentation and OpenAPI/Swagger can be found at `http://localhost:8000/docs` (when backend is running).
+- API documentation and OpenAPI/Swagger can be found at `http://localhost:3001/docs` (when backend is running).
 - All endpoints are under `/api/`
 - Require a valid JWT token (get via `/api/token`).
 
@@ -64,6 +69,6 @@ See `interfaces/openapi.json` for the list of endpoints.
 
 The frontend should point API requests (via `REACT_APP_API_URL`) to this backend’s HTTP URL, e.g.:
 ```
-REACT_APP_API_URL=http://localhost:8000/api
+REACT_APP_API_URL=http://localhost:3001/api
 ```
 (see frontend README for details).
