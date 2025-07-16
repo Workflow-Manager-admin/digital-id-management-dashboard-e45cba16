@@ -7,14 +7,14 @@ See also the `interfaces/openapi.json` for the API schema.
 
 ### Environment Variables Required
 
-To configure connection to *your* PostgreSQL instance, these must be set (by .env file, docker env, or shell):
+To configure connection to *your* MySQL instance, these must be set (by .env file, docker env, or shell):
 
 ```
-POSTGRES_URL=<host>        # Host, e.g. localhost
-POSTGRES_USER=<username>   # e.g. appuser
-POSTGRES_PASSWORD=<pw>     # Password for user
-POSTGRES_DB=<database>     # e.g. myapp
-POSTGRES_PORT=<port>       # e.g. 5000 (default 5432)
+MYSQL_URL=<host>           # Host, e.g. localhost
+MYSQL_USER=<username>      # e.g. appuser
+MYSQL_PASSWORD=<pw>        # Password for user
+MYSQL_DB=<database>        # e.g. myapp
+MYSQL_PORT=<port>          # e.g. 3306
 ```
 
 You may also set (for security):
@@ -26,20 +26,20 @@ JWT_SECRET=your-secret-string
 #### Example `.env`
 
 ```
-POSTGRES_URL=localhost
-POSTGRES_USER=appuser
-POSTGRES_PASSWORD=dbuser123
-POSTGRES_DB=myapp
-POSTGRES_PORT=5000
+MYSQL_URL=localhost
+MYSQL_USER=appuser
+MYSQL_PASSWORD=dbuser123
+MYSQL_DB=myapp
+MYSQL_PORT=3306
 JWT_SECRET=myverysecretstring
 ```
 
 ### Database Setup
 
-This backend expects to connect to a PostgreSQL instance initialized with the correct user/database.
+This backend expects to connect to a MySQL instance initialized with the correct user/database/schema.
 A sample connection string might be:
 ```
-postgresql://appuser:dbuser123@localhost:5000/myapp
+mysql+pymysql://appuser:dbuser123@localhost:3306/myapp
 ```
 (see `../digital_id_database/db_connection.txt`)
 

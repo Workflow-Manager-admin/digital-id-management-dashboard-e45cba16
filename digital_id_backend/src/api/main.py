@@ -23,7 +23,7 @@ Optional direct start: python src/api/main.py    # (uses uvicorn programmaticall
 """
 import os
 from datetime import datetime, timedelta
-from enum import Enum
+from enum import Enum as PyEnum
 from typing import List, Optional
 
 # Load environment variables from .env at backend startup (if present)
@@ -40,27 +40,27 @@ from fastapi.middleware.cors import CORSMiddleware
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr, Field
-from sqlalchemy import (Column, Integer, String, ForeignKey, DateTime, Enum as PgEnum, Boolean,
+from sqlalchemy import (Column, Integer, String, ForeignKey, DateTime, Enum as SAEnum, Boolean,
                         create_engine)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, scoped_session, Session
 
-# Database config
+# Database config (MySQL)
 # PUBLIC_INTERFACE
-# Set these environment variables to configure connection to PostgreSQL
+# Set these environment variables to configure connection to MySQL
 # Example (in .env or exported in shell):
-#   POSTGRES_URL=localhost
-#   POSTGRES_USER=appuser
-#   POSTGRES_PASSWORD=dbuser123
-#   POSTGRES_DB=myapp
-#   POSTGRES_PORT=5000
-PG_USER = os.getenv("POSTGRES_USER", "postgres")
-PG_PASS = os.getenv("POSTGRES_PASSWORD", "postgres")
-PG_DB = os.getenv("POSTGRES_DB", "digital_id")
-PG_HOST = os.getenv("POSTGRES_URL", "localhost")
-PG_PORT = os.getenv("POSTGRES_PORT", "5432")
+#   MYSQL_URL=localhost
+#   MYSQL_USER=appuser
+#   MYSQL_PASSWORD=dbuser123
+#   MYSQL_DB=myapp
+#   MYSQL_PORT=3306
+MYSQL_USER = os.getenv("MYSQL_USER", "root")
+MYSQL_PASS = os.getenv("MYSQL_PASSWORD", "password")
+MYSQL_DB = os.getenv("MYSQL_DB", "digital_id")
+MYSQL_HOST = os.getenv("MYSQL_URL", "localhost")
+MYSQL_PORT = os.getenv("MYSQL_PORT", "3306")
 # Compose SQLAlchemy connection string using env vars for portability.
-PG_URL = f"postgresql+psycopg2://{PG_USER}:{PG_PASS}@{PG_HOST}:{PG_PORT}/{PG_DB}"
+MYSQL_URL = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASS}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DB}"
 
 # JWT config
 SECRET_KEY = os.getenv("JWT_SECRET", "very_secret_val")
@@ -69,11 +69,11 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 8   # 8 hours
 
 # SQLAlchemy setup
 Base = declarative_base()
-engine = create_engine(PG_URL, echo=False, future=True)
+engine = create_engine(MYSQL_URL, echo=False, future=True)
 SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
 
-class RoleEnum(str, Enum):
+class RoleEnum(str, PyEnum):
     SUPERADMIN = "superadmin"
     ADMIN = "admin"
 
@@ -87,7 +87,7 @@ class User(Base):
     full_name = Column(String, nullable=True)
     is_active = Column(Boolean, default=True)
     is_invited = Column(Boolean, default=False)
-    role = Column(PgEnum(RoleEnum), default=RoleEnum.ADMIN, nullable=False)
+    role = Column(SAEnum(RoleEnum), default=RoleEnum.ADMIN, nullable=False)
     invited_by = Column(Integer, ForeignKey("users.id"), nullable=True)
 
     invitations = relationship("Invitation", back_populates="invitee", foreign_keys="Invitation.user_id")
@@ -273,7 +273,7 @@ class UniqueNumberOut(UniqueNumberBase):
     class Config:
         orm_mode = True
 
-class LinkageAction(str, Enum):
+class LinkageAction(str, PyEnum):
     LINK = "link"
     UNLINK = "unlink"
 

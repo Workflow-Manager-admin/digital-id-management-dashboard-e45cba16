@@ -4,16 +4,16 @@ This document describes the environment variables, API base URLs, and component 
 
 ---
 
-## 1. Database (PostgreSQL)
+## 1. Database (MySQL)
 - **Required by:** Backend
 - **Connection details:**
-  - POSTGRES_URL=localhost
-  - POSTGRES_USER=appuser
-  - POSTGRES_PASSWORD=dbuser123
-  - POSTGRES_DB=myapp
-  - POSTGRES_PORT=5000
+  - MYSQL_URL=localhost
+  - MYSQL_USER=appuser
+  - MYSQL_PASSWORD=dbuser123
+  - MYSQL_DB=myapp
+  - MYSQL_PORT=3306
 - **Sample connection string:**  
-  `postgresql://appuser:dbuser123@localhost:5000/myapp`
+  `mysql+pymysql://appuser:dbuser123@localhost:3306/myapp`
 - **Bootstrap:**  
   Run `startup.sh` or execute the schema in `schema.sql`.
 

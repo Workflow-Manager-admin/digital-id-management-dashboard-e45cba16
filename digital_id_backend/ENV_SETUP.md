@@ -4,19 +4,19 @@ This describes the critical setup for **API/backend/database** connectivity and 
 
 ---
 
-## [1] Database (PostgreSQL) – digital_id_database
+## [1] Database (MySQL) – digital_id_database
 
 Set (in shell/.env):
 ```
-POSTGRES_URL=localhost
-POSTGRES_USER=appuser
-POSTGRES_PASSWORD=dbuser123
-POSTGRES_DB=myapp
-POSTGRES_PORT=5000
+MYSQL_URL=localhost
+MYSQL_USER=appuser
+MYSQL_PASSWORD=dbuser123
+MYSQL_DB=myapp
+MYSQL_PORT=3306
 ```
 Sample connection string (see `db_connection.txt` in database container):
 ```
-postgresql://appuser:dbuser123@localhost:5000/myapp
+mysql+pymysql://appuser:dbuser123@localhost:3306/myapp
 ```
 The database must be initialized with users/tables as in the provided schema.
 
@@ -24,16 +24,16 @@ The database must be initialized with users/tables as in the provided schema.
 
 ## [2] Backend API (FastAPI) – digital_id_backend
 
-The backend loads DB connection settings from environment variables (`POSTGRES_*`) as shown above.
+The backend loads DB connection settings from environment variables (`MYSQL_*`) as shown above.
 It can pick these up from a `.env` file in the backend directory.
 
 **Basic backend .env example:**
 ```
-POSTGRES_URL=localhost
-POSTGRES_USER=appuser
-POSTGRES_PASSWORD=dbuser123
-POSTGRES_DB=myapp
-POSTGRES_PORT=5000
+MYSQL_URL=localhost
+MYSQL_USER=appuser
+MYSQL_PASSWORD=dbuser123
+MYSQL_DB=myapp
+MYSQL_PORT=3306
 JWT_SECRET=something-random-for-jwt
 ```
 
