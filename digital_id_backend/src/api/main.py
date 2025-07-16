@@ -32,12 +32,20 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, scoped_session, Session
 
 # Database config
+# PUBLIC_INTERFACE
+# Set these environment variables to configure connection to PostgreSQL
+# Example (in .env or exported in shell):
+#   POSTGRES_URL=localhost
+#   POSTGRES_USER=appuser
+#   POSTGRES_PASSWORD=dbuser123
+#   POSTGRES_DB=myapp
+#   POSTGRES_PORT=5000
 PG_USER = os.getenv("POSTGRES_USER", "postgres")
 PG_PASS = os.getenv("POSTGRES_PASSWORD", "postgres")
 PG_DB = os.getenv("POSTGRES_DB", "digital_id")
 PG_HOST = os.getenv("POSTGRES_URL", "localhost")
 PG_PORT = os.getenv("POSTGRES_PORT", "5432")
-
+# Compose SQLAlchemy connection string using env vars for portability.
 PG_URL = f"postgresql+psycopg2://{PG_USER}:{PG_PASS}@{PG_HOST}:{PG_PORT}/{PG_DB}"
 
 # JWT config
