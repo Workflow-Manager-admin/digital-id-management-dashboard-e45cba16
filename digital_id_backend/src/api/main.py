@@ -20,6 +20,14 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import List, Optional
 
+# Load environment variables from .env at backend startup (if present)
+try:
+    from dotenv import load_dotenv
+    dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), '.env')
+    load_dotenv(dotenv_path, override=False)
+except Exception as ex:
+    print(f"Warning: Could not load .env file automatically. Please ensure environment variables are set. Details: {ex}")
+
 from fastapi import FastAPI, Depends, HTTPException, status, Query
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
